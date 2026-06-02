@@ -23,21 +23,21 @@
             <button id="btn-no" class="btn">Hindi</button>
         </div>
 
-        <!-- Stage 2: Hidden Scheduling Form (Revealed via JS) -->
-        <form class="booking-form hidden" id="lesson-form">
+        <!-- Stage 2: Scheduling Form connected to Formspree -->
+        <form class="booking-form hidden" id="lesson-form" action="https://formspree.io/f/xykaggzl" method="POST">
             <div class="form-group">
                 <label for="student-name">Your Name</label>
-                <input type="text" id="student-name" placeholder="Enter your name" required>
+                <input type="text" id="student-name" name="name" placeholder="Enter your name" required>
             </div>
             
             <div class="form-group">
                 <label for="contact-info">Contact Details (Discord, Email, or Phone)</label>
-                <input type="text" id="contact-info" placeholder="How should I reach out?" required>
+                <input type="text" id="contact-info" name="contact" placeholder="How should I reach out?" required>
             </div>
 
             <div class="form-group">
                 <label for="lesson-day">Preferred Day</label>
-                <select id="lesson-day" required>
+                <select id="lesson-day" name="day" required>
                     <option value="" disabled selected>Select a day</option>
                     <option value="Monday">Monday</option>
                     <option value="Tuesday">Tuesday</option>
@@ -51,7 +51,7 @@
 
             <div class="form-group">
                 <label for="lesson-time">Preferred Time Slot</label>
-                <select id="lesson-time" required>
+                <select id="lesson-time" name="time" required>
                     <option value="" disabled selected>Select a time</option>
                     <option value="Morning">Morning (9:00 AM - 12:00 PM)</option>
                     <option value="Afternoon">Afternoon (12:00 PM - 5:00 PM)</option>

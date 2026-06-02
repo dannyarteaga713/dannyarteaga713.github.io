@@ -11,7 +11,6 @@ document.addEventListener("DOMContentLoaded", function() {
     let yesScale = 1.0;
     let yesFontSize = 1.1;
 
-    // Array of funny tagalog dynamic rejection responses
     const rejectionPhrases = [
         "Hindi",
         "Talaga ba? Isip muna... 🥺",
@@ -24,12 +23,9 @@ document.addEventListener("DOMContentLoaded", function() {
     // 1. "Hindi" Button Handler (Grows the "Yes" button)
     btnNo.addEventListener("click", function() {
         noClickCount++;
-        
-        // Cycle phrases or hold on the final warning
         const phraseIndex = Math.min(noClickCount, rejectionPhrases.length - 1);
         btnNo.innerText = rejectionPhrases[phraseIndex];
 
-        // Scale Up the Yes Button proportionally
         yesScale += 0.35;
         yesFontSize += 0.15;
         
@@ -39,33 +35,46 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // 2. "Yes" Button Handler (Swaps Proposal UI out for the Form UI)
     btnYes.addEventListener("click", function() {
-        // Swap out titles and visual imagery
         questionText.innerText = "YAYYY! Let's schedule our first lesson! 🎓❤️";
         displayGif.src = "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbW9scXF6YTN0Y3I2bW93ZzB4N29wY3RxamM0bXN6cmN6ZzZsOHZ0dyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3RsPTE/KztT2c4Y8m7xcEMYUt/giphy.gif"; 
 
-        // Hide original action buttons and display our form view
         actionControls.classList.add("hidden");
         lessonForm.classList.remove("hidden");
     });
 
-    // 3. Form Submit Event Handler (Captures data and serves final view)
+    // 3. Form Submit Event Handler (Sends data to Formspree via AJAX & serves final view)
     lessonForm.addEventListener("submit", function(event) {
-        event.preventDefault(); // Stop page from submitting to server/refreshing
+        event.preventDefault(); // Stop standard browser page reload
 
-        // Extract input values safely from the DOM
+        const formData = new FormData(lessonForm);
         const studentName = document.getElementById("student-name").value;
         const preferredDay = document.getElementById("lesson-day").value;
         const preferredTime = document.getElementById("lesson-time").value;
 
-        // Clear out current card body and show the data back to the user cleanly
-        mainCard.innerHTML = `
-            <div class="image-wrapper">
-                <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbW9scXF6YTN0Y3I2bW93ZzB4N29wY3RxamM0bXN6cmN6ZzZsOHZ0dyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3RsPTE/KztT2c4Y8m7xcEMYUt/giphy.gif" alt="Success">
-            </div>
-            <h1>See you on ${preferredDay}! 🎉</h1>
-            <p class="success-text">
-                Awesome, <strong>${studentName}</strong>! Your preference for <strong>${preferredDay}s (${preferredTime})</strong> has been successfully captured. Time to master Tagalog! 🇵🇭
-            </p>
-        `;
+        // Send data behind the scenes to Formspree
+        fetch(lessonForm.action, {
+            method: lessonForm.method,
+            body: formData,
+            headers: {
+                'Accept': 'application/json'
+            }
+        }).then(response => {
+            if (response.ok) {
+                // Render the beautiful custom layout only if submission succeeds
+                mainCard.innerHTML = `
+                    <div class="image-wrapper">
+                        <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbW9scXF6YTN0Y3I2bW93ZzB4N29wY3RxamM0bXN6cmN6ZzZsOHZ0dyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3RsPTE/KztT2c4Y8m7xcEMYUt/giphy.gif" alt="Success">
+                    </div>
+                    <h1>See you on ${preferredDay}! 🎉</h1>
+                    <p class="success-text">
+                        Awesome, <strong>${studentName}</strong>! Your preference for <strong>${preferredDay}s (${preferredTime})</strong> has been successfully captured. Time to master Tagalog! 🇵🇭
+                    </p>
+                `;
+            } else {
+                alert("Oops! There was a problem submitting your form. Please try again.");
+            }
+        }).catch(error => {
+            alert("Oops! There was a connection error. Please check your internet link.");
+        });
     });
 });
