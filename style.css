@@ -1,4 +1,4 @@
-/* --- Global Foundations --- */
+/* --- Global Reset & Architecture --- */
 * {
     box-sizing: border-box;
     margin: 0;
@@ -10,12 +10,12 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background-color: #ffeef2; /* Soft pastel pink background */
+    background-color: #f0faff; /* Light soft sky blue pastel background */
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     overflow-x: hidden;
 }
 
-/* --- Container Framework --- */
+/* --- Content Wrapper Matrix --- */
 .card-container {
     display: flex;
     flex-direction: column;
@@ -43,20 +43,20 @@ body {
 }
 
 h1 {
-    font-size: 2rem;
-    color: #d63384; /* Deep rose tone */
+    font-size: 2.2rem;
+    color: #0056b3; /* Deep navy blue contrast */
     margin-bottom: 30px;
     line-height: 1.3;
     padding: 0 10px;
 }
 
-/* --- Control Mechanics --- */
+/* --- Control Interactivity --- */
 .btn-group {
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 20px;
-    flex-wrap: wrap; /* Prevents overflow scaling breakage */
+    flex-wrap: wrap; 
     width: 100%;
 }
 
@@ -72,19 +72,19 @@ h1 {
 }
 
 #btn-yes {
-    background-color: #4caf50; /* Green Confirmation */
+    background-color: #28a745; /* Clean interactive green */
     color: white;
 }
 
 #btn-yes:hover {
-    background-color: #43a047;
+    background-color: #218838;
 }
 
 #btn-no {
-    background-color: #e53935; /* Red Negation */
+    background-color: #dc3545; /* Clean alert red */
     color: white;
 }
 
 #btn-no:hover {
-    background-color: #d32f2f;
+    background-color: #c82333;
 }
